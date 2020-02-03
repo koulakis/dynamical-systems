@@ -13,8 +13,8 @@ def plot_traj(x0, dx_dt, fw=0, bw=0, n_time_samples=100, ax=None, color=None):
     (ax if ax else plt).plot(xs[:, 0], xs[:, 1], linewidth=1, color=color)
     
 
-def plot_field(dx_dt, xlim, ylim, scale=100, ax=None, polar=False):
-    X, Y = np.mgrid[xlim[0]:xlim[1]:15j, ylim[0]:ylim[1]:15j]
+def plot_field(dx_dt, xlim, ylim, scale=100, ax=None, polar=False, density=15j):
+    X, Y = np.mgrid[xlim[0]:xlim[1]:density, ylim[0]:ylim[1]:density]
     u, v = dx_dt([X, Y], None)
     if polar:
         u, v = v*np.cos(X) - Y*u*np.sin(X), v*np.cos(X) + Y*u*np.cos(X)
