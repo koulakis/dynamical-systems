@@ -7,10 +7,10 @@ def plot_traj(x0, dx_dt, fw=0, bw=0, n_time_samples=100, ax=None, color=None):
     if color is None:
         color='red'
     xs = odeint(dx_dt, x0, np.linspace(0, fw, n_time_samples))
-    (ax if ax else plt).plot(xs[:, 0], xs[:, 1], linewidth=1, color=color)
+    (ax if ax else plt).plot(*[xs[:, i] for i in range(xs.shape[1])], linewidth=1, color=color)
     
     xs = odeint(dx_dt, x0, np.linspace(0, -bw, n_time_samples))
-    (ax if ax else plt).plot(xs[:, 0], xs[:, 1], linewidth=1, color=color)
+    (ax if ax else plt).plot(*[xs[:, i] for i in range(xs.shape[1])], linewidth=1, color=color)
     
 
 def plot_field(dx_dt, xlim, ylim, scale=100, ax=None, polar=False, density=15j):
@@ -19,6 +19,11 @@ def plot_field(dx_dt, xlim, ylim, scale=100, ax=None, polar=False, density=15j):
     if polar:
         u, v = v*np.cos(X) - Y*u*np.sin(X), v*np.cos(X) + Y*u*np.cos(X)
     (ax if ax else plt).quiver(X, Y, u, v, color='b', scale=scale)
+    
+def plot_3Dfield(dx_dt, xlim, ylim, zlim, length=0.1, ax=None, density=10j, alpha=0.5):
+    X, Y, Z = np.mgrid[xlim[0]:xlim[1]:density, ylim[0]:ylim[1]:density, zlim[0]:zlim[1]:density]
+    u, v, w = dx_dt([X, Y, Z], None)
+    (ax if ax else plt).quiver(X, Y, Z, u, v, w, color='b', length=length, alpha=alpha)
 
 def plot_phase_portrait(
     dx_dt, ts, 
