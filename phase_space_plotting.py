@@ -6,11 +6,13 @@ import matplotlib.pyplot as plt
 def plot_traj(x0, dx_dt, fw=0, bw=0, n_time_samples=100, ax=None, color=None):
     if color is None:
         color='red'
-    xs = odeint(dx_dt, x0, np.linspace(0, fw, n_time_samples))
-    (ax if ax else plt).plot(*[xs[:, i] for i in range(xs.shape[1])], linewidth=1, color=color)
+    xs_fw = odeint(dx_dt, x0, np.linspace(0, fw, n_time_samples))
+    (ax if ax else plt).plot(*[xs_fw[:, i] for i in range(xs_fw.shape[1])], linewidth=1, color=color)
     
-    xs = odeint(dx_dt, x0, np.linspace(0, -bw, n_time_samples))
-    (ax if ax else plt).plot(*[xs[:, i] for i in range(xs.shape[1])], linewidth=1, color=color)
+    xs_bw = odeint(dx_dt, x0, np.linspace(0, -bw, n_time_samples))
+    (ax if ax else plt).plot(*[xs_bw[:, i] for i in range(xs_bw.shape[1])], linewidth=1, color=color)
+    
+    return xs_fw, xs_bw
     
 
 def plot_field(dx_dt, xlim, ylim, scale=100, ax=None, polar=False, density=15j):
