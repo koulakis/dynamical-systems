@@ -5,3 +5,4 @@ matplotlib
 scipy
 Pillow
 opencv-python
+sklearn
